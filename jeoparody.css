@@ -1,0 +1,465 @@
+body {
+    margin: 0;
+    position: absolute;
+    overflow: hidden;
+    background: lightgray;
+}
+
+:root {
+    font-family: 'Copse';
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    font-variant: small-caps;
+    text-align: center;
+    font-size: 48px;
+    font-weight: 300;
+    margin-bottom: 4px;
+}
+
+h2 {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 200;
+    margin-top: 4px;
+}
+
+/* Geoparody start screen */
+
+#start-screen, #summary {
+    background: #264eff;
+
+    position: relative;
+    width: calc(100vw - 128px);
+    height: 100vh;
+
+    padding: 0 64px;
+
+    display: flex;
+    align-items: center;
+}
+
+#player-list, #summary > div {
+    background: white;
+    padding: 16px 32px;
+    width: 100%;
+    max-width: 968px;
+    margin: auto;
+}
+
+.list-container {
+    display: block;
+    width: calc(100% - 112px);
+    height: 96px;
+
+    margin: 0 64px;
+    margin-right: 48px;
+
+    overflow-y: scroll;
+}
+
+.list-container > div {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.list-container > div > div {
+    line-height: 200%;
+}
+
+.list-container > div > div:nth-child(3n + 1) {
+    width: calc(80% - 16px);
+    padding-left: 16px;
+}
+
+.list-container > div > div.keybind {
+    font-size: 12px;
+    font-style: italic;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    transition: background 0.25s ease;
+}
+
+.list-container > div > div.keybind:hover {
+    background: #e0e0e0;
+}
+
+.list-container > div > div.keybind.active {
+    background: #dadada;
+}
+
+.list-container > div > div:nth-child(6n + 1),
+.list-container > div > div:nth-child(6n + 2),
+.list-container > div > div:nth-child(6n + 3) {
+    background: #f0f0f0;
+}
+
+.list-container > div > div:nth-child(6n + 4),
+.list-container > div > div:nth-child(6n + 5),
+.list-container > div > div:nth-child(6n + 6) {
+    background: #e8e8e8;
+}
+
+.list-container > div > :nth-child(3n + 2),
+.list-container > div > :nth-child(3n + 3) {
+    width: 10%;
+    border-radius: 0;
+    text-align: center;
+}
+
+
+input[type="text"], input[type="number"] {
+    padding: 4px;
+    border-radius: 4px;
+    border: 1px solid #888888;
+    font-size: 16px;
+
+    transition: border 0.25s ease;
+}
+
+input[type="text"]:focus, input[type="number"]:focus {
+    border: 1px solid #5555ff;
+}
+
+
+
+
+/* Game board & clues */
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(6, 160px);
+    gap: 6px;
+
+    width: auto !important;
+
+    order: 1;
+
+    margin-left: calc(50vw - 50%);
+}
+
+.board > div {
+    background: #0000ff;
+    
+    font-family: Impact;
+    font-weight: 200;
+    font-size: 54px;
+    
+    overflow: hidden;
+
+    transition: color 0.5s ease, text-shadow 0.5s ease;
+    color: #ffe400ff;
+    text-shadow: 3px 3px black;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    height: 80px;
+}
+
+.board > :not(.category).hidden {
+    color: #ffe40000;
+    text-shadow: 3px 3px #00000000;
+    cursor: default;
+}
+
+.board > .category {
+    color: white;
+    font-size: 18px;
+    text-shadow: 2px 1px black;
+    text-align: center;
+    text-transform: uppercase;
+
+    padding: 8px;
+
+    cursor: default;
+}
+
+.board > .category.hidden {
+    color: #ffffff00;
+    text-shadow: 2px 1px #00000000;
+}
+
+.board > div:not(.category):not(.hidden) {
+    transition: background 0.25s ease, color 0.5s ease, text-shadow 0.5s ease;
+}
+
+.board > div:not(.category):not(.hidden):hover {
+    background: #2a2aff;
+}
+
+.board > div:not(.category):not(.hidden):active {
+    background: #4444ff;
+}
+
+.prev, .next {
+    display: none;
+    width: 12.5% !important;
+    top: 0;
+    background: #3333ff;
+
+    transition: background 0.25s ease;
+}
+
+.prev:hover, .next:hover {
+    background: #5555ff;
+}
+.prev:active, .next:active {
+    background: #6060ff;
+}
+
+.prev {
+    order: 0;
+    margin-right: 6px !important;
+}
+
+.prev::before {
+    content: "<";
+    position: relative;
+    left: calc(50% - 0.9rem);
+    top: calc(50% - 2rem);
+    
+    font-family: sans-serif;
+    font-weight: bold;
+    color: white;
+    font-size: 4rem;
+}
+
+.next {
+    order: 2;
+    margin-left: 6px !important;
+}
+
+.next::before {
+    content: ">";
+    position: relative;
+    left: calc(50% - 1.1rem);
+    top: calc(50% - 2rem);
+    
+    font-family: sans-serif;
+    font-weight: bold;
+    color: white;
+    font-size: 4rem;
+}
+
+/* large-sized screens */
+@media only screen and (max-width: 1024px) {
+    .prev, .next {
+        display: block;
+    }
+
+    .board {
+        width: calc((160px * 3) + (6px * 2)) !important;
+    }
+}
+
+/* small-sized screens */
+@media only screen and (max-width: 824px) {
+    #start-screen {
+        width: 100vw;
+        padding: 0;
+    }
+
+    .board {
+        width: calc((160px * 2) + (6px * 1)) !important;
+    }
+}
+
+.supercontainer {
+    position: absolute;
+    display: flex;
+    flex-flow: column;
+    height: 100vh;
+    top: 0;
+}
+
+.container {
+    position: relative;
+    width: 100vw;
+    height: auto;
+    margin-top: 5px;
+
+    flex: 0 1 auto;
+
+    display: flex;
+    justify-content: center;
+}
+
+
+
+.container > div {
+    margin: 0;
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+.clue.hidden {
+    display: none;
+}
+
+.clue {
+    position: absolute;
+    background: #0000ff;
+
+    color: white;
+    text-transform: uppercase;
+
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    justify-content: center;
+
+    font-size: calc(
+        (4vw * var(--progress)) +
+        (10px * (1 - var(--progress)))
+    );
+    padding: 0 calc(2rem * var(--progress));
+
+    margin-left: calc(var(--left) * (1 - var(--progress)));
+    margin-top: calc(var(--top) * (1 - var(--progress)));
+    width: calc(
+        ((100vw - (4rem * var(--progress))) * var(--progress)) +
+        (var(--width) * (1 - var(--progress)))
+    );
+    height: calc(
+        ((100vh) * var(--progress)) +
+        (var(--height) * (1 - var(--progress)))
+    );
+
+    --progress: 0;
+    --entry-progress: 0;
+    transition:
+        margin-left 1.5s linear,
+        margin-top 1.5s linear,
+        width 1.5s linear,
+        height 1.5s linear,
+        padding 1.5s linear,
+        font-size 1.5s linear,
+        color 0.5s ease,
+        background 1s ease
+    ;
+
+    overflow: hidden;
+}
+
+
+
+.clue.daily-double {
+    font-size: calc(
+        (8vw * var(--progress)) +
+        (14px * (1 - var(--progress)))
+    );
+    font-variant: small-caps;
+
+    animation: daily-double 1.5s ease-out 0s 1;
+    background: red;
+}
+
+.clue.anim {
+    --progress: 1;
+}
+
+.clue.entry {
+    transition:
+        margin-left 1.5s linear,
+        margin-top 1.5s linear,
+        width 1.5s linear,
+        height 1.5s linear,
+        padding 1.5s linear,
+        font-size 0.75s ease,
+        color 0.5s ease,
+        background 1s ease
+    ;
+    --entry-progress: 1;
+}
+
+.clue.hide {
+    color: #ffffff00;
+}
+
+.clue > div {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: space-between;
+
+    transition: height 0.5s ease;
+}
+
+.clue > div:nth-child(1) {
+    height: calc(70% + (30% * (1 - var(--entry-progress))));
+    overflow: hidden;
+}
+
+.clue > form {
+    overflow: hidden;
+
+    display: block;
+    align-items: flex-start;
+    margin-top: calc(-8% * var(--entry-progress));
+    
+    transition: height 0.5s ease, margin-top 0.5s ease;
+
+    flex-wrap: wrap;
+}
+
+.clue > form span {
+    font-size: 2.5rem;
+    margin: 0 4px;
+    white-space: pre;
+}
+
+.clue > form input[type="number"],
+.clue > form input[type="text"] {
+    border: 3px solid white;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-radius: unset;
+
+    background: #ffffff40;
+    color: white;
+    font-size: calc(4vw - 3px);
+    padding: 0.5rem;
+}
+
+.clue > form input[type="number"] {
+    width: 12rem;
+}
+
+.clue > form input[type="text"] {
+    width: 50%;
+}
+
+.clue > form br {
+    all: unset;
+    flex-basis: 100%;
+    height: 0;
+}
+
+.clue > form div {
+    font-size: 1.5rem;
+
+    font-variant: normal;
+    text-transform: capitalize;
+
+    margin-top: 0.5rem;
+}
+
+
